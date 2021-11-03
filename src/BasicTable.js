@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Slider from "@mui/material/Slider";
+import Emoji from "a11y-react-emoji";
 
 export default function BasicTable() {
   const hkTime = (time) => {
@@ -31,7 +32,7 @@ export default function BasicTable() {
   dt.setSeconds(0);
   dt.setHours(dt.getHours() + value);
   for (let i = 0; i < 12; i++) {
-    rows[i] = { hkTime: hkTime(dt), ukTime: ukTime(dt) };
+    rows[i] = { id: i, hkTime: hkTime(dt), ukTime: ukTime(dt) };
     dt.setHours(dt.getHours() + 1);
   }
   //console.log(rows);
@@ -57,8 +58,13 @@ export default function BasicTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>HK Time</TableCell>
-            <TableCell align="right">UK Time</TableCell>
+            <TableCell>
+              <Emoji symbol="🇭🇰" label="hk-flag" /> HK Time
+            </TableCell>
+            <TableCell align="right">
+              <Emoji symbol="🇬🇧" label="uk-flag" />
+              UK Time
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -87,7 +93,7 @@ export default function BasicTable() {
             </TableCell>
           </TableRow>
           {rows.map((row, i) => (
-            <TableRow>
+            <TableRow key={row.id}>
               <TableCell>{i + ` hour later`}</TableCell>
               <TableCell>{row.hkTime}</TableCell>
               <TableCell align="right">{row.ukTime}</TableCell>
