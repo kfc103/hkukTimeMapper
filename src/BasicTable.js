@@ -8,45 +8,32 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Slider from "@mui/material/Slider";
 import Emoji from "a11y-react-emoji";
+import moment from "moment-timezone";
+import pluralize from "pluralize";
 
 export default function BasicTable() {
-  const hkTime = (time) => {
-    const now = time ? time : new Date();
-    return now.toLocaleString("en-GB", {
-      timeZone: "Asia/Hong_Kong"
-    });
-  };
-  const ukTime = (time) => {
-    const now = time ? time : new Date();
-    return now.toLocaleString("en-GB", {
-      timeZone: "Europe/London"
-    });
-  };
-
-  const [now, setNow] = React.useState(new Date());
-  const [value, setValue] = React.useState(0);
+  const [now, setNow] = React.useState(moment());
+  const [value, setValue] = React.useState(1);
 
   const rows = [];
-  const dt = new Date();
-  dt.setMinutes(0);
-  dt.setSeconds(0);
-  dt.setHours(dt.getHours() + value);
-  for (let i = 0; i < 12; i++) {
-    rows[i] = { id: i, hkTime: hkTime(dt), ukTime: ukTime(dt) };
-    dt.setHours(dt.getHours() + 1);
+  const tempNow = moment();
+  tempNow.add(value, "hours");
+  for (let i = value; i < value + 12; i++) {
+    rows[i] = {
+      id: i,
+      delayedHour: i,
+      hkTime: tempNow.tz("Asia/Hong_Kong").format("h:mm a"),
+      ukTime: tempNow.tz("Europe/London").format("h:mm a")
+    };
+    tempNow.add(1, "hours");
   }
-  //console.log(rows);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setNow(new Date());
+      setNow(moment());
     }, 1000);
     return () => clearInterval(interval);
   }, [now]);
-
-  function valuetext(value) {
-    return `${value}°C`;
-  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -58,44 +45,63 @@ export default function BasicTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>
-              <Emoji symbol="🇭🇰" label="hk-flag" /> HK Time
+            <TableCell />
+            <TableCell align="center">
+              <Emoji symbol="🇭🇰" label="hk-flag" /> HK
             </TableCell>
-            <TableCell align="right">
-              <Emoji symbol="🇬🇧" label="uk-flag" />
-              UK Time
+            <TableCell align="center">
+              <Emoji symbol="🇬🇧" label="uk-flag" /> UK
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-            <TableCell>Current Time</TableCell>
-            <TableCell component="th" scope="row">
-              {hkTime(now)}
+            <TableCell component="th" scope="row" rowSpan={2}>
+              Current
             </TableCell>
-            <TableCell align="right">{ukTime(now)}</TableCell>
+            <TableCell component="th" scope="row">
+              Date
+            </TableCell>
+            <TableCell align="right">
+              {now.tz("Asia/Hong_Kong").format("Do MMM YYYY")}
+            </TableCell>
+            <TableCell align="right">
+              {now.tz("Europe/London").format("Do MMM YYYY")}
+            </TableCell>
+          </TableRow>
+          <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+            <TableCell component="th" scope="row">
+              Time
+            </TableCell>
+            <TableCell align="right">
+              {now.tz("Asia/Hong_Kong").format("hh:mm:ss a")}
+            </TableCell>
+            <TableCell align="right">
+              {now.tz("Europe/London").format("hh:mm:ss a")}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Offset Hour(s)</TableCell>
-            <TableCell colSpan={2}>
+            <TableCell colSpan={3} align="right">
               <Slider
                 aria-label="time-offset"
-                defaultValue={0}
+                defaultValue={1}
                 value={value}
                 onChange={handleChange}
-                getAriaValueText={valuetext}
                 valueLabelDisplay="auto"
                 step={1}
                 marks
-                min={0}
+                min={1}
                 max={12}
               />
             </TableCell>
           </TableRow>
-          {rows.map((row, i) => (
+          {rows.map((row) => (
             <TableRow key={row.id}>
-              <TableCell>{i + ` hour later`}</TableCell>
-              <TableCell>{row.hkTime}</TableCell>
+              <TableCell colSpan={2} align="right">
+                {pluralize("hour", row.delayedHour, true) + ` later`}
+              </TableCell>
+              <TableCell align="right">{row.hkTime}</TableCell>
               <TableCell align="right">{row.ukTime}</TableCell>
             </TableRow>
           ))}
