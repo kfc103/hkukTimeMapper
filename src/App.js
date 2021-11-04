@@ -19,16 +19,15 @@ function HideOnScroll(props) {
     </Slide>
   );
 }
+
 export default function App() {
   return (
     <div className="App">
-      <HideOnScroll {...this.props}>
-        <AppBar>
-          <Toolbar>
-            <Typography variant="h6">Timezoner</Typography>
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
+      <AppBar>
+        <Toolbar>
+          <Typography variant="h6">Timezoner</Typography>
+        </Toolbar>
+      </AppBar>
       <Toolbar />
       <BasicTable />
     </div>
