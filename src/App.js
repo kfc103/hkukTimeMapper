@@ -1,35 +1,54 @@
 import "./styles.css";
 import BasicTable from "./BasicTable";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material//Typography";
-import Slide from "@mui/material/Slide";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
 
-function HideOnScroll(props) {
-  const { children, window } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
-  const trigger = useScrollTrigger({ target: window ? window() : undefined });
-
+function Copyright() {
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
+    <Typography variant="body2" color="text.secondary">
+      {"Copyright © "}
+      <Link color="inherit" href="https://github.com/kfc103/hkukTimezoner">
+        Timezoner
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
   );
 }
 
 export default function App() {
   return (
     <div className="App">
-      <AppBar>
-        <Toolbar>
-          <Typography variant="h6">Timezoner</Typography>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
-      <BasicTable />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh"
+        }}
+      >
+        <CssBaseline />
+        <BasicTable />
+        <Box
+          component="footer"
+          sx={{
+            py: 3,
+            px: 2,
+            mt: "auto",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "light"
+                ? theme.palette.grey[200]
+                : theme.palette.grey[800]
+          }}
+        >
+          <Container maxWidth="sm">
+            <Typography variant="body1">HK-UK Timezoner by Aidan C</Typography>
+            <Copyright />
+          </Container>
+        </Box>
+      </Box>
     </div>
   );
 }
