@@ -45,7 +45,6 @@ export default function BasicTable() {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell />
             <TableCell align="center">
               <Emoji symbol="🇭🇰" label="hk-flag" /> HK
             </TableCell>
@@ -56,11 +55,8 @@ export default function BasicTable() {
         </TableHead>
         <TableBody>
           <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-            <TableCell component="th" scope="row" rowSpan={2}>
-              Current
-            </TableCell>
             <TableCell component="th" scope="row">
-              Date
+              Current Date
             </TableCell>
             <TableCell align="right">
               {now.tz("Asia/Hong_Kong").format("Do MMM YYYY")}
@@ -71,18 +67,18 @@ export default function BasicTable() {
           </TableRow>
           <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
             <TableCell component="th" scope="row">
-              Time
+              Current Time
             </TableCell>
             <TableCell align="right">
-              {now.tz("Asia/Hong_Kong").format("hh:mm:ss a")}
+              {now.tz("Asia/Hong_Kong").format("h:mm:ss a")}
             </TableCell>
             <TableCell align="right">
-              {now.tz("Europe/London").format("hh:mm:ss a")}
+              {now.tz("Europe/London").format("h:mm:ss a")}
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Offset Hour(s)</TableCell>
-            <TableCell colSpan={3} align="right">
+            <TableCell colSpan={2} align="right">
               <Slider
                 aria-label="time-offset"
                 defaultValue={1}
@@ -98,7 +94,7 @@ export default function BasicTable() {
           </TableRow>
           {rows.map((row) => (
             <TableRow key={row.id}>
-              <TableCell colSpan={2} align="right">
+              <TableCell align="right">
                 {pluralize("hour", row.delayedHour, true) + ` later`}
               </TableCell>
               <TableCell align="right">{row.hkTime}</TableCell>
