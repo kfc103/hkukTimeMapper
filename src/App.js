@@ -1,3 +1,4 @@
+import * as React from "react";
 import "./styles.css";
 import TimeTable from "./TimeTable";
 import Typography from "@mui/material//Typography";
@@ -19,7 +20,17 @@ function Copyright() {
   );
 }
 
-export default function App() {
+export default function App(props) {
+  React.useEffect(() => {
+    const { appServiceWorker } = this.props;
+    appServiceWorker.onInstalled(() =>
+      console.log("appServiceWorker.onInstalled")
+    );
+    appServiceWorker.onUpdateFound(() =>
+      console.log("appServiceWorker.onUpdateFound")
+    );
+  }, []);
+
   return (
     <div className="App">
       <Box

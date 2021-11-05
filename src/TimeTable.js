@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import Emoji from "a11y-react-emoji";
 import moment from "moment-timezone";
 import pluralize from "pluralize";
@@ -44,12 +45,12 @@ export default function TimeTable() {
       id: i,
       delayedHour: i,
       hkTime: tempNow.tz("Asia/Hong_Kong").format("HH:mm"),
-      hkDaySame: daySame(
+      hkNextDay: daySame(
         tempNow.tz("Asia/Hong_Kong"),
         now.tz("Asia/Hong_Kong")
       ),
       ukTime: tempNow.tz("Europe/London").format("HH:mm"),
-      ukDaySame: daySame(tempNow.tz("Europe/London"), now.tz("Europe/London"))
+      ukNextDay: daySame(tempNow.tz("Europe/London"), now.tz("Europe/London"))
     };
     tempNow.add(1, "hours");
   }
@@ -156,7 +157,8 @@ export default function TimeTable() {
                     backgroundColor: getCellStyle(row.hkTime)
                   }}
                 >
-                  {row.hkTime + " " + row.hkDaySame}
+                  {row.hkTime + " "}
+                  <Typography variant="caption">{row.hkNextDay}</Typography>
                 </TableCell>
                 <TableCell
                   align="center"
@@ -164,7 +166,8 @@ export default function TimeTable() {
                     backgroundColor: getCellStyle(row.ukTime)
                   }}
                 >
-                  {row.ukTime + " " + row.ukDaySame}
+                  {row.ukTime + " "}
+                  <Typography variant="caption">{row.ukNextDay}</Typography>
                 </TableCell>
               </TableRow>
             ))}
