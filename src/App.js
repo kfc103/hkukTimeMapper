@@ -22,7 +22,7 @@ function Copyright() {
 
 export default function App(props) {
   React.useEffect(() => {
-    const { appServiceWorker } = this.props;
+    const { appServiceWorker } = props;
     appServiceWorker.onInstalled(() =>
       console.log("appServiceWorker.onInstalled")
     );
