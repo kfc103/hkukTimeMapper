@@ -39,7 +39,7 @@ export default function TimeTable() {
   const tempNow = moment().startOf("hour");
 
   tempNow.add(1, "hours");
-  for (let i = 1; i < 24; i++) {
+  for (let i = 1; i <= 24; i++) {
     rows[i] = {
       id: i,
       delayedHour: i,
@@ -63,7 +63,7 @@ export default function TimeTable() {
 
   return (
     <div>
-      <TableContainer component={Paper} sx={{ maxHeight: height - 100 }}>
+      <TableContainer component={Paper}>
         <Table
           stickyHeader
           sx={{ minWidth: 300 }}
@@ -75,19 +75,17 @@ export default function TimeTable() {
               <TableCell sx={{ backgroundColor: thBackgroundColor }} />
               <TableCell
                 align="center"
-                sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
+                sx={{ backgroundColor: thBackgroundColor, width: "30vw" }}
               >
                 <Emoji symbol="🇭🇰" label="hk-flag" /> HK
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
+                sx={{ backgroundColor: thBackgroundColor, width: "30vw" }}
               >
                 <Emoji symbol="🇬🇧" label="uk-flag" /> UK
               </TableCell>
             </TableRow>
-          </TableHead>
-          <TableHead>
             <TableRow>
               <TableCell
                 component="th"
@@ -97,20 +95,18 @@ export default function TimeTable() {
                 Current Date
               </TableCell>
               <TableCell
-                align="right"
+                align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
                 {now.tz("Asia/Hong_Kong").format("Do MMM YYYY")}
               </TableCell>
               <TableCell
-                align="right"
+                align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
                 {now.tz("Europe/London").format("Do MMM YYYY")}
               </TableCell>
             </TableRow>
-          </TableHead>
-          <TableHead>
             <TableRow>
               <TableCell
                 component="th"
@@ -120,19 +116,31 @@ export default function TimeTable() {
                 Current Time
               </TableCell>
               <TableCell
-                align="right"
+                align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
                 {now.tz("Asia/Hong_Kong").format("HH:mm:ss")}
               </TableCell>
               <TableCell
-                align="right"
+                align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
                 {now.tz("Europe/London").format("HH:mm:ss")}
               </TableCell>
             </TableRow>
           </TableHead>
+        </Table>
+      </TableContainer>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: height - 100 - 37 * 3 }}
+      >
+        <Table
+          stickyHeader
+          sx={{ minWidth: 300 }}
+          aria-label="simple table"
+          size="small"
+        >
           <TableBody>
             {rows.map((row) => (
               <TableRow
@@ -143,7 +151,7 @@ export default function TimeTable() {
                   {pluralize("hour", row.delayedHour, true) + ` later`}
                 </TableCell>
                 <TableCell
-                  align="right"
+                  align="center"
                   sx={{
                     backgroundColor: getCellStyle(row.hkTime)
                   }}
@@ -151,7 +159,7 @@ export default function TimeTable() {
                   {row.hkTime + " " + row.hkDaySame}
                 </TableCell>
                 <TableCell
-                  align="right"
+                  align="center"
                   sx={{
                     backgroundColor: getCellStyle(row.ukTime)
                   }}
