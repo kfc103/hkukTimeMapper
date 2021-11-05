@@ -37,9 +37,10 @@ export default function App() {
             py: 3,
             px: 2,
             mt: "auto",
+            height: 100,
             backgroundColor: (theme) =>
               theme.palette.mode === "light"
-                ? theme.palette.backgroundColor
+                ? theme.palette.grey[200]
                 : theme.palette.grey[800]
           }}
         >
