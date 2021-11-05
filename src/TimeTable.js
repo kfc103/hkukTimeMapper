@@ -10,20 +10,47 @@ import Slider from "@mui/material/Slider";
 import Emoji from "a11y-react-emoji";
 import moment from "moment-timezone";
 import pluralize from "pluralize";
+import { green, grey } from "@mui/material/colors";
 
-export default function BasicTable() {
+const daySame = (t1, t2) => {
+  return t1.format("YYYYMMDD") === t2.format("YYYYMMDD") ? "" : "+1";
+};
+
+const getCellStyle = (t) => {
+  console.log(t);
+  if (isWorkingHour(t)) return green[100];
+  else if (isSleepingHour(t)) return grey[200];
+};
+
+const isSleepingHour = (t) => {
+  if (t <= "0700" || t >= "2300") return true;
+  else return false;
+};
+
+const isWorkingHour = (t) => {
+  if (t >= "0900" && t <= "1800") return true;
+  else return false;
+};
+
+export default function TimeTable() {
   const [now, setNow] = React.useState(moment());
   const [value, setValue] = React.useState(1);
 
   const rows = [];
-  const tempNow = moment();
+  const tempNow = moment().startOf("hour");
+
   tempNow.add(value, "hours");
-  for (let i = value; i < value + 12; i++) {
+  for (let i = value; i < value + 24; i++) {
     rows[i] = {
       id: i,
       delayedHour: i,
-      hkTime: tempNow.tz("Asia/Hong_Kong").format("h:mm a"),
-      ukTime: tempNow.tz("Europe/London").format("h:mm a")
+      hkTime: tempNow.tz("Asia/Hong_Kong").format("HH:mm"),
+      hkDaySame: daySame(
+        tempNow.tz("Asia/Hong_Kong"),
+        now.tz("Asia/Hong_Kong")
+      ),
+      ukTime: tempNow.tz("Europe/London").format("HH:mm"),
+      ukDaySame: daySame(tempNow.tz("Europe/London"), now.tz("Europe/London"))
     };
     tempNow.add(1, "hours");
   }
@@ -41,7 +68,12 @@ export default function BasicTable() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 300 }} aria-label="simple table" size="small">
+      <Table
+        stickyHeader
+        sx={{ minWidth: 300 }}
+        aria-label="simple table"
+        size="small"
+      >
         <TableHead>
           <TableRow>
             <TableCell />
@@ -97,8 +129,22 @@ export default function BasicTable() {
               <TableCell align="right">
                 {pluralize("hour", row.delayedHour, true) + ` later`}
               </TableCell>
-              <TableCell align="right">{row.hkTime}</TableCell>
-              <TableCell align="right">{row.ukTime}</TableCell>
+              <TableCell
+                align="right"
+                sx={{
+                  backgroundColor: getCellStyle(row.hkTime)
+                }}
+              >
+                {row.hkTime + " " + row.hkDaySame}
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{
+                  backgroundColor: getCellStyle(row.ukTime)
+                }}
+              >
+                {row.ukTime + " " + row.ukDaySame}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

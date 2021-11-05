@@ -1,5 +1,5 @@
 import "./styles.css";
-import BasicTable from "./BasicTable";
+import TimeTable from "./TimeTable";
 import Typography from "@mui/material//Typography";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -30,7 +30,7 @@ export default function App() {
         }}
       >
         <CssBaseline />
-        <BasicTable />
+        <TimeTable />
         <Box
           component="footer"
           sx={{
@@ -39,7 +39,7 @@ export default function App() {
             mt: "auto",
             backgroundColor: (theme) =>
               theme.palette.mode === "light"
-                ? theme.palette.grey[200]
+                ? theme.palette.backgroundColor
                 : theme.palette.grey[800]
           }}
         >
