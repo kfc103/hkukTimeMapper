@@ -82,9 +82,8 @@ export default function TimeTable() {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <Emoji symbol="💛" label="hk-flag" />
+                <Emoji symbol="🌏" label="hk-flag" />
                 &nbsp;HK&nbsp;
-                <Emoji symbol="💛" label="hk-flag" />
               </TableCell>
               <TableCell
                 align="center"
@@ -92,7 +91,6 @@ export default function TimeTable() {
               >
                 <Emoji symbol="🇬🇧" label="uk-flag" />
                 &nbsp;UK&nbsp;
-                <Emoji symbol="🇬🇧" label="uk-flag" />
               </TableCell>
             </TableRow>
             <TableRow>
@@ -101,7 +99,8 @@ export default function TimeTable() {
                 scope="row"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                Date
+                <Emoji symbol="📅" label="date" />
+                &nbsp;Date
               </TableCell>
               <TableCell
                 align="center"
@@ -122,7 +121,8 @@ export default function TimeTable() {
                 scope="row"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                Time
+                <Emoji symbol="⌚" label="time" />
+                &nbsp;Time
               </TableCell>
               <TableCell
                 align="center"
@@ -156,7 +156,7 @@ export default function TimeTable() {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="left">
+                <TableCell align="right">
                   {pluralize("hour", row.delayedHour, true) + ` later`}
                 </TableCell>
                 <TableCell
