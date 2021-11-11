@@ -76,13 +76,13 @@ export default function TimeTable() {
               <TableCell sx={{ backgroundColor: thBackgroundColor }} />
               <TableCell
                 align="center"
-                sx={{ backgroundColor: thBackgroundColor, width: "30vw" }}
+                sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
                 <Emoji symbol="🇭🇰" label="hk-flag" /> HK
               </TableCell>
               <TableCell
                 align="center"
-                sx={{ backgroundColor: thBackgroundColor, width: "30vw" }}
+                sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
                 <Emoji symbol="🇬🇧" label="uk-flag" /> UK
               </TableCell>
@@ -99,13 +99,13 @@ export default function TimeTable() {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz("Asia/Hong_Kong").format("Do MMM YYYY")}
+                {now.tz("Asia/Hong_Kong").format("D MMM (ddd)")}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz("Europe/London").format("Do MMM YYYY")}
+                {now.tz("Europe/London").format("D MMM (ddd)")}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -154,7 +154,8 @@ export default function TimeTable() {
                 <TableCell
                   align="center"
                   sx={{
-                    backgroundColor: getCellStyle(row.hkTime)
+                    backgroundColor: getCellStyle(row.hkTime),
+                    width: "35vw"
                   }}
                 >
                   {row.hkTime + " "}
@@ -163,7 +164,8 @@ export default function TimeTable() {
                 <TableCell
                   align="center"
                   sx={{
-                    backgroundColor: getCellStyle(row.ukTime)
+                    backgroundColor: getCellStyle(row.ukTime),
+                    width: "35vw"
                   }}
                 >
                   {row.ukTime + " "}
