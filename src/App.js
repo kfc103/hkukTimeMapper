@@ -29,7 +29,7 @@ export default function App(props) {
     appServiceWorker.onUpdateFound(() =>
       console.log("appServiceWorker.onUpdateFound")
     );
-  }, []);
+  }, [props]);
 
   return (
     <div className="App">

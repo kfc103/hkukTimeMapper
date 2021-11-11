@@ -38,6 +38,8 @@ export default function TimeTable() {
   const { height } = useWindowDimensions();
   const rows = [];
   const tempNow = moment().startOf("hour");
+  const [thHeight, setThHeight] = React.useState(0);
+  const ref = React.useRef(null);
 
   tempNow.add(1, "hours");
   for (let i = 1; i <= 24; i++) {
@@ -56,6 +58,8 @@ export default function TimeTable() {
   }
 
   React.useEffect(() => {
+    setThHeight(ref.current.clientHeight);
+
     const interval = setInterval(() => {
       setNow(moment());
     }, 1000);
@@ -71,20 +75,24 @@ export default function TimeTable() {
           aria-label="simple table"
           size="small"
         >
-          <TableHead>
+          <TableHead ref={ref}>
             <TableRow>
               <TableCell sx={{ backgroundColor: thBackgroundColor }} />
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <Emoji symbol="🇭🇰" label="hk-flag" /> HK
+                <Emoji symbol="💛" label="hk-flag" />
+                &nbsp;HK&nbsp;
+                <Emoji symbol="💛" label="hk-flag" />
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <Emoji symbol="🇬🇧" label="uk-flag" /> UK
+                <Emoji symbol="🇬🇧" label="uk-flag" />
+                &nbsp;UK&nbsp;
+                <Emoji symbol="🇬🇧" label="uk-flag" />
               </TableCell>
             </TableRow>
             <TableRow>
@@ -93,7 +101,7 @@ export default function TimeTable() {
                 scope="row"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                Current Date
+                Date
               </TableCell>
               <TableCell
                 align="center"
@@ -114,7 +122,7 @@ export default function TimeTable() {
                 scope="row"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                Current Time
+                Time
               </TableCell>
               <TableCell
                 align="center"
@@ -134,7 +142,7 @@ export default function TimeTable() {
       </TableContainer>
       <TableContainer
         component={Paper}
-        sx={{ maxHeight: height - 100 - 37 * 3 }}
+        sx={{ maxHeight: height - 100 - thHeight }}
       >
         <Table
           stickyHeader
@@ -148,7 +156,7 @@ export default function TimeTable() {
                 key={row.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="right">
+                <TableCell align="left">
                   {pluralize("hour", row.delayedHour, true) + ` later`}
                 </TableCell>
                 <TableCell
