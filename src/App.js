@@ -7,6 +7,11 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MoreIcon from "@mui/icons-material/MoreVert";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary">
@@ -33,6 +38,23 @@ export default function App(props) {
 
   return (
     <div className="App">
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Timezoner
+            </Typography>
+            <IconButton
+              size="large"
+              aria-label="display more actions"
+              edge="end"
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -42,24 +64,6 @@ export default function App(props) {
       >
         <CssBaseline />
         <TimeTable />
-        <Box
-          component="footer"
-          sx={{
-            py: 3,
-            px: 2,
-            mt: "auto",
-            height: 100,
-            backgroundColor: (theme) =>
-              theme.palette.mode === "light"
-                ? theme.palette.grey[200]
-                : theme.palette.grey[800]
-          }}
-        >
-          <Container maxWidth="sm">
-            <Typography variant="body1">HK-UK Timezoner by Aidan C</Typography>
-            <Copyright />
-          </Container>
-        </Box>
       </Box>
     </div>
   );

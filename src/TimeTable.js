@@ -7,11 +7,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Emoji from "a11y-react-emoji";
 import moment from "moment-timezone";
 import pluralize from "pluralize";
 import { blue, green, grey } from "@mui/material/colors";
 import { useWindowDimensions } from "./WindowDimensions";
+import TimezoneSelector from "./TimezoneSelector";
 
 const thBackgroundColor = blue[50];
 const daySame = (t1, t2) => {
@@ -40,19 +40,18 @@ export default function TimeTable() {
   const tempNow = moment().startOf("hour");
   const [thHeight, setThHeight] = React.useState(0);
   const ref = React.useRef(null);
+  const [tz1, setTz1] = React.useState("Asia/Hong_Kong");
+  const [tz2, setTz2] = React.useState("Europe/London");
 
   tempNow.add(1, "hours");
   for (let i = 1; i <= 24; i++) {
     rows[i] = {
       id: i,
       delayedHour: i,
-      hkTime: tempNow.tz("Asia/Hong_Kong").format("HH:mm"),
-      hkNextDay: daySame(
-        tempNow.tz("Asia/Hong_Kong"),
-        now.tz("Asia/Hong_Kong")
-      ),
-      ukTime: tempNow.tz("Europe/London").format("HH:mm"),
-      ukNextDay: daySame(tempNow.tz("Europe/London"), now.tz("Europe/London"))
+      hkTime: tempNow.tz(tz1).format("HH:mm"),
+      hkNextDay: daySame(tempNow.tz(tz1), now.tz(tz1)),
+      ukTime: tempNow.tz(tz2).format("HH:mm"),
+      ukNextDay: daySame(tempNow.tz(tz2), now.tz(tz2))
     };
     tempNow.add(1, "hours");
   }
@@ -65,6 +64,11 @@ export default function TimeTable() {
     }, 1000);
     return () => clearInterval(interval);
   }, [now]);
+
+  const onTimezoneChange = (e) => {
+    if (e.target.id === "tz1-select") setTz1(e.target.value);
+    else if (e.target.id === "tz2-select") setTz2(e.target.value);
+  };
 
   return (
     <div>
@@ -82,15 +86,21 @@ export default function TimeTable() {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <Emoji symbol="🌏" label="hk-flag" />
-                &nbsp;HK&nbsp;
+                <TimezoneSelector
+                  id="tz1-select"
+                  value={tz1}
+                  onChange={onTimezoneChange}
+                />
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <Emoji symbol="🇬🇧" label="uk-flag" />
-                &nbsp;UK&nbsp;
+                <TimezoneSelector
+                  id="tz2-select"
+                  value={tz2}
+                  onChange={onTimezoneChange}
+                />
               </TableCell>
             </TableRow>
             <TableRow>
@@ -99,20 +109,19 @@ export default function TimeTable() {
                 scope="row"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                <Emoji symbol="📅" label="date" />
-                &nbsp;Date
+                Date
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz("Asia/Hong_Kong").format("D MMM (ddd)")}
+                {now.tz(tz1).format("D MMM (ddd)")}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz("Europe/London").format("D MMM (ddd)")}
+                {now.tz(tz2).format("D MMM (ddd)")}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -121,29 +130,25 @@ export default function TimeTable() {
                 scope="row"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                <Emoji symbol="⌚" label="time" />
-                &nbsp;Time
+                Time
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz("Asia/Hong_Kong").format("HH:mm:ss")}
+                {now.tz(tz1).format("HH:mm:ss")}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz("Europe/London").format("HH:mm:ss")}
+                {now.tz(tz2).format("HH:mm:ss")}
               </TableCell>
             </TableRow>
           </TableHead>
         </Table>
       </TableContainer>
-      <TableContainer
-        component={Paper}
-        sx={{ maxHeight: height - 100 - thHeight }}
-      >
+      <TableContainer component={Paper} sx={{ maxHeight: height - thHeight }}>
         <Table
           stickyHeader
           sx={{ minWidth: 300 }}
