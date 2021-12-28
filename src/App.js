@@ -1,29 +1,15 @@
 import * as React from "react";
 import "./styles.css";
-import TimeTable from "./TimeTable";
-import Typography from "@mui/material//Typography";
+import Home from "./components/Home";
+import MoreMenu from "./components/MoreMenu";
+import Copyright from "./components/Copyright";
+import TimezoneFinder from "./components/TimezoneFinder";
+import Typography from "@mui/material/Typography";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
-
+import { Routes, Route } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import MoreIcon from "@mui/icons-material/MoreVert";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary">
-      {"Copyright © "}
-      <Link color="inherit" href="https://github.com/kfc103/hkukTimezoner">
-        Timezoner
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 export default function App(props) {
   React.useEffect(() => {
@@ -44,27 +30,15 @@ export default function App(props) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Timezoner
             </Typography>
-            <IconButton
-              size="large"
-              aria-label="display more actions"
-              edge="end"
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
+            <MoreMenu />
           </Toolbar>
         </AppBar>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh"
-        }}
-      >
-        <CssBaseline />
-        <TimeTable />
-      </Box>
+      <CssBaseline />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="about" element={<Copyright />} />
+      </Routes>
     </div>
   );
 }

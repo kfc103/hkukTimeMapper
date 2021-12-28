@@ -11,7 +11,8 @@ import moment from "moment-timezone";
 import pluralize from "pluralize";
 import { blue, green, grey } from "@mui/material/colors";
 import { useWindowDimensions } from "./WindowDimensions";
-import TimezoneSelector from "./TimezoneSelector";
+import TimezoneFinder from "./TimezoneFinder";
+import cityTimezones from "city-timezones";
 
 const thBackgroundColor = blue[50];
 const daySame = (t1, t2) => {
@@ -33,25 +34,31 @@ const isWorkingHour = (t) => {
   else return false;
 };
 
-export default function TimeTable() {
+export default function TimeTable(props) {
   const [now, setNow] = React.useState(moment());
   const { height } = useWindowDimensions();
   const rows = [];
   const tempNow = moment().startOf("hour");
   const [thHeight, setThHeight] = React.useState(0);
   const ref = React.useRef(null);
-  const [tz1, setTz1] = React.useState("Asia/Hong_Kong");
-  const [tz2, setTz2] = React.useState("Europe/London");
+  const [timezone1, setTimezone1] = React.useState(props.timezone1);
+  const [timezone2, setTimezone2] = React.useState(props.timezone2);
 
   tempNow.add(1, "hours");
   for (let i = 1; i <= 24; i++) {
     rows[i] = {
       id: i,
       delayedHour: i,
-      hkTime: tempNow.tz(tz1).format("HH:mm"),
-      hkNextDay: daySame(tempNow.tz(tz1), now.tz(tz1)),
-      ukTime: tempNow.tz(tz2).format("HH:mm"),
-      ukNextDay: daySame(tempNow.tz(tz2), now.tz(tz2))
+      tz1Time: tempNow.tz(timezone1.timezone).format("HH:mm"),
+      tz1NextDay: daySame(
+        tempNow.tz(timezone1.timezone),
+        now.tz(timezone1.timezone)
+      ),
+      tz2Time: tempNow.tz(timezone2.timezone).format("HH:mm"),
+      tz2NextDay: daySame(
+        tempNow.tz(timezone2.timezone),
+        now.tz(timezone2.timezone)
+      )
     };
     tempNow.add(1, "hours");
   }
@@ -65,13 +72,8 @@ export default function TimeTable() {
     return () => clearInterval(interval);
   }, [now]);
 
-  const onTimezoneChange = (e) => {
-    if (e.target.id === "tz1-select") setTz1(e.target.value);
-    else if (e.target.id === "tz2-select") setTz2(e.target.value);
-  };
-
   return (
-    <div>
+    <>
       <TableContainer component={Paper}>
         <Table
           stickyHeader
@@ -86,20 +88,20 @@ export default function TimeTable() {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <TimezoneSelector
-                  id="tz1-select"
-                  value={tz1}
-                  onChange={onTimezoneChange}
+                <TimezoneFinder
+                  name={timezone1.city}
+                  code={timezone1.iso2}
+                  setTimezone={setTimezone1}
                 />
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
-                <TimezoneSelector
-                  id="tz2-select"
-                  value={tz2}
-                  onChange={onTimezoneChange}
+                <TimezoneFinder
+                  name={timezone2.city}
+                  code={timezone2.iso2}
+                  setTimezone={setTimezone2}
                 />
               </TableCell>
             </TableRow>
@@ -115,13 +117,13 @@ export default function TimeTable() {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(tz1).format("D MMM (ddd)")}
+                {now.tz(timezone1.timezone).format("D MMM (ddd)")}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(tz2).format("D MMM (ddd)")}
+                {now.tz(timezone2.timezone).format("D MMM (ddd)")}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -136,13 +138,13 @@ export default function TimeTable() {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(tz1).format("HH:mm:ss")}
+                {now.tz(timezone1.timezone).format("HH:mm:ss")}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(tz2).format("HH:mm:ss")}
+                {now.tz(timezone2.timezone).format("HH:mm:ss")}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -167,28 +169,28 @@ export default function TimeTable() {
                 <TableCell
                   align="center"
                   sx={{
-                    backgroundColor: getCellStyle(row.hkTime),
+                    backgroundColor: getCellStyle(row.tz1Time),
                     width: "35vw"
                   }}
                 >
-                  {row.hkTime + " "}
-                  <Typography variant="caption">{row.hkNextDay}</Typography>
+                  {row.tz1Time + " "}
+                  <Typography variant="caption">{row.tz1NextDay}</Typography>
                 </TableCell>
                 <TableCell
                   align="center"
                   sx={{
-                    backgroundColor: getCellStyle(row.ukTime),
+                    backgroundColor: getCellStyle(row.tz2Time),
                     width: "35vw"
                   }}
                 >
-                  {row.ukTime + " "}
-                  <Typography variant="caption">{row.ukNextDay}</Typography>
+                  {row.tz2Time + " "}
+                  <Typography variant="caption">{row.tz2NextDay}</Typography>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </>
   );
 }
