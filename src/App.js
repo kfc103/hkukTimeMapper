@@ -8,8 +8,8 @@ import Box from "@mui/material/Box";
 import { Routes, Route } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Home from "./components/Home";
 
-const Home = lazy(() => import("./components/Home"));
 const Copyright = lazy(() => import("./components/Copyright"));
 //import Home from "./components/Home";
 //import Copyright from "./components/Copyright";
