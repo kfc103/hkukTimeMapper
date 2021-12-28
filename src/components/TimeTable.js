@@ -12,7 +12,6 @@ import pluralize from "pluralize";
 import { blue, green, grey } from "@mui/material/colors";
 import { useWindowDimensions } from "./WindowDimensions";
 import TimezoneFinder from "./TimezoneFinder";
-import cityTimezones from "city-timezones";
 
 const thBackgroundColor = blue[50];
 const daySame = (t1, t2) => {
