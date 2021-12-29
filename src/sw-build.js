@@ -7,7 +7,7 @@ const buildSW = () => {
       swSrc: "src/sw-template.js", // this is your sw template file
       swDest: "build/service-worker.js", // this will be created in the build step
       globDirectory: "build",
-      globPatterns: ["**/*.{jpg}"], // precaching jpg files
+      globPatterns: ["*.js", "*.css", "favicon.ico", "index.html"],
       // Custom size limit
       maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
     })
