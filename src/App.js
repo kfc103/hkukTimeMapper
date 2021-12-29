@@ -39,7 +39,7 @@ export default function App(props) {
       </Box>
       <CssBaseline />
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route path="*" element={<Home />} />
         <Route path="about" element={<Copyright />} />
       </Routes>
     </div>
