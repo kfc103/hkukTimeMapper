@@ -27,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build-sw": "node ./src/sw-build.js",
-    "build": "npm run build-sw",
+    "build": "npm run build-sw && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
