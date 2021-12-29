@@ -9,7 +9,7 @@ const buildSW = () => {
       globDirectory: "build",
       globPatterns: ["*.js", "*.css", "favicon.ico", "index.html"],
       // Custom size limit
-      maximumFileSizeToCacheInBytes: 4 * 1024 * 1024
+      maximumFileSizeToCacheInBytes: 2 * 1024 * 1024
     })
     .then(({ count, size, warnings }) => {
       // Optionally, log any warnings and details.
