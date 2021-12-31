@@ -69,6 +69,11 @@ export default function TimeTable(props) {
     return () => clearInterval(interval);
   }, [now]);
 
+  React.useEffect(() => {
+    setTimezone1(props.timezone1);
+    setTimezone2(props.timezone2);
+  }, []);
+
   return (
     <>
       <TableContainer component={Paper}>

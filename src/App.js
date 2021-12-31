@@ -13,8 +13,6 @@ import cityTimezones from "city-timezones";
 
 const Home = lazy(() => import("./components/Home"));
 const Copyright = lazy(() => import("./components/Copyright"));
-//import Home from "./components/Home";
-//import Copyright from "./components/Copyright";
 
 export function getDefaultData() {
   return [
@@ -59,7 +57,6 @@ export default function App(props) {
     appServiceWorker.onUpdateFound(() =>
       console.log("appServiceWorker.onUpdateFound")
     );
-
     dataInit();
   }, [props]);
 

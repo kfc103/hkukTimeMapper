@@ -2,10 +2,8 @@ import * as React from "react";
 import "../styles.css";
 import TimeTable from "./TimeTable";
 import Box from "@mui/material/Box";
-//import cityTimezones from "city-timezones";
 
 export default function Home(props) {
-  const { db, timezone1, timezone2 } = props;
   return (
     <Box
       sx={{
@@ -14,7 +12,11 @@ export default function Home(props) {
         minHeight: "100vh"
       }}
     >
-      <TimeTable db={db} timezone1={timezone1} timezone2={timezone2} />
+      <TimeTable
+        db={props.db}
+        timezone1={props.timezone1}
+        timezone2={props.timezone2}
+      />
     </Box>
   );
 }
