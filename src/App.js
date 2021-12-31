@@ -53,7 +53,7 @@ export default function App(props) {
         setTimezone1(results[0]);
         setTimezone2(results[1]);
 
-        update(db, results[1], 1);
+        //update(db, results[1], 1);
       } catch (e) {
         console.log("Cannot retrieve local record: set default value");
         const DEFAULT_DATA = getDefaultData();
