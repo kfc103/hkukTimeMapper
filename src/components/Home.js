@@ -6,10 +6,6 @@ import Box from "@mui/material/Box";
 
 export default function Home(props) {
   const { db, timezone1, timezone2 } = props;
-  //const timezone1 = cityTimezones.findFromCityStateProvince("Hong Kong")[0];
-  //const timezone2 = cityTimezones.findFromCityStateProvince(
-  //  "United Kingdom Westminster London"
-  //)[0];
   return (
     <Box
       sx={{
