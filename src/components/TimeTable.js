@@ -48,16 +48,14 @@ export default function TimeTable(props) {
     rows[i] = {
       id: i,
       delayedHour: i,
-      tz1Time: tempNow.tz(timezone1.timezone).format("HH:mm"),
-      tz1NextDay: daySame(
-        tempNow.tz(timezone1.timezone),
-        now.tz(timezone1.timezone)
-      ),
-      tz2Time: tempNow.tz(timezone2.timezone).format("HH:mm"),
-      tz2NextDay: daySame(
-        tempNow.tz(timezone2.timezone),
-        now.tz(timezone2.timezone)
-      )
+      tz1Time: timezone1 ? tempNow.tz(timezone1.timezone).format("HH:mm") : "",
+      tz1NextDay: timezone1
+        ? daySame(tempNow.tz(timezone1.timezone), now.tz(timezone1.timezone))
+        : "",
+      tz2Time: timezone2 ? tempNow.tz(timezone2.timezone).format("HH:mm") : "",
+      tz2NextDay: timezone2
+        ? daySame(tempNow.tz(timezone2.timezone), now.tz(timezone2.timezone))
+        : ""
     };
     tempNow.add(1, "hours");
   }
@@ -90,8 +88,8 @@ export default function TimeTable(props) {
                 <TimezoneFinder
                   db={props.db}
                   timezone={1}
-                  name={timezone1.city}
-                  code={timezone1.iso2}
+                  name={timezone1 ? timezone1.city : "Select a city"}
+                  code={timezone1 ? timezone1.iso2 : ""}
                   setTimezone={setTimezone1}
                 />
               </TableCell>
@@ -102,8 +100,8 @@ export default function TimeTable(props) {
                 <TimezoneFinder
                   db={props.db}
                   timezone={2}
-                  name={timezone2.city}
-                  code={timezone2.iso2}
+                  name={timezone2 ? timezone2.city : "Select a city"}
+                  code={timezone2 ? timezone2.iso2 : ""}
                   setTimezone={setTimezone2}
                 />
               </TableCell>
@@ -120,13 +118,17 @@ export default function TimeTable(props) {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(timezone1.timezone).format("D MMM (ddd)")}
+                {timezone1
+                  ? now.tz(timezone1.timezone).format("D MMM (ddd)")
+                  : ""}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(timezone2.timezone).format("D MMM (ddd)")}
+                {timezone2
+                  ? now.tz(timezone2.timezone).format("D MMM (ddd)")
+                  : ""}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -141,13 +143,13 @@ export default function TimeTable(props) {
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(timezone1.timezone).format("HH:mm:ss")}
+                {timezone1 ? now.tz(timezone1.timezone).format("HH:mm:ss") : ""}
               </TableCell>
               <TableCell
                 align="center"
                 sx={{ backgroundColor: thBackgroundColor }}
               >
-                {now.tz(timezone2.timezone).format("HH:mm:ss")}
+                {timezone2 ? now.tz(timezone2.timezone).format("HH:mm:ss") : ""}
               </TableCell>
             </TableRow>
           </TableHead>

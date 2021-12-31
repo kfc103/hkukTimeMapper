@@ -69,13 +69,15 @@ export default function TimezoneFinder(props) {
   return (
     <div>
       <Button fullWidth onClick={handleClickOpen}>
-        <img
-          loading="lazy"
-          width="20"
-          src={`https://flagcdn.com/w20/${code.toLowerCase()}.png`}
-          srcSet={`https://flagcdn.com/w40/${code.toLowerCase()}.png 2x`}
-          alt=""
-        />
+        {code && (
+          <img
+            loading="lazy"
+            width="20"
+            src={`https://flagcdn.com/w20/${code.toLowerCase()}.png`}
+            srcSet={`https://flagcdn.com/w40/${code.toLowerCase()}.png 2x`}
+            alt=""
+          />
+        )}
         &nbsp;
         {name}
       </Button>
