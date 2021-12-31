@@ -35,8 +35,8 @@ export default function App(props) {
       setDb(db);
 
       const results = await readAll(db);
-      //console.log(results[0]);
-      //console.log(results[1]);
+      console.log(results[0]);
+      console.log(results[1]);
       setTimezone1(results[0]);
       setTimezone2(results[1]);
 
