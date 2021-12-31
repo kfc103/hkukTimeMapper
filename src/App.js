@@ -30,6 +30,27 @@ export default function App(props) {
   const [timezone2, setTimezone2] = React.useState();
   const [db, setDb] = React.useState();
 
+  const dataInit = async () => {
+    try {
+      const db = await prepareDb();
+      //console.log("db:" + db);
+      setDb(db);
+
+      const results = await readAll(db);
+      //console.log(results[0]);
+      //console.log(results[1]);
+      setTimezone1(results[0]);
+      setTimezone2(results[1]);
+
+      //update(db, results[1], 1);
+    } catch (e) {
+      console.log("Cannot retrieve local record: set default value");
+      const DEFAULT_DATA = getDefaultData();
+      setTimezone1(DEFAULT_DATA[0]);
+      setTimezone2(DEFAULT_DATA[1]);
+    }
+  };
+
   React.useEffect(() => {
     const { appServiceWorker } = props;
     appServiceWorker.onInstalled(() =>
@@ -38,31 +59,9 @@ export default function App(props) {
     appServiceWorker.onUpdateFound(() =>
       console.log("appServiceWorker.onUpdateFound")
     );
+
+    dataInit();
   }, [props]);
-
-  React.useEffect(() => {
-    async function func() {
-      try {
-        const db = await prepareDb();
-        //console.log("db:" + db);
-        setDb(db);
-
-        const results = await readAll(db);
-        //console.log(results[0]);
-        //console.log(results[1]);
-        setTimezone1(results[0]);
-        setTimezone2(results[1]);
-
-        //update(db, results[1], 1);
-      } catch (e) {
-        console.log("Cannot retrieve local record: set default value");
-        const DEFAULT_DATA = getDefaultData();
-        setTimezone1(DEFAULT_DATA[0]);
-        setTimezone2(DEFAULT_DATA[1]);
-      }
-    }
-    func();
-  }, []);
 
   return (
     <div className="App">
