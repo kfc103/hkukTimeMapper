@@ -88,6 +88,8 @@ export default function TimeTable(props) {
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
                 <TimezoneFinder
+                  db={props.db}
+                  timezone={1}
                   name={timezone1.city}
                   code={timezone1.iso2}
                   setTimezone={setTimezone1}
@@ -98,6 +100,8 @@ export default function TimeTable(props) {
                 sx={{ backgroundColor: thBackgroundColor, width: "35vw" }}
               >
                 <TimezoneFinder
+                  db={props.db}
+                  timezone={2}
                   name={timezone2.city}
                   code={timezone2.iso2}
                   setTimezone={setTimezone2}

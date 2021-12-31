@@ -51,6 +51,9 @@ export default function MoreMenu() {
           }
         }}
       >
+        <MenuItem component={Link} to={"/"} onClick={handleClose}>
+          Home
+        </MenuItem>
         <MenuItem component={Link} to={"/about"} onClick={handleClose}>
           About
         </MenuItem>

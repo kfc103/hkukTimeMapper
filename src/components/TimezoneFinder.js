@@ -19,13 +19,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import PublicIcon from "@mui/icons-material/Public";
 import moment from "moment-timezone";
+import { update } from "../Storage";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function TimezoneFinder(props) {
-  const { name, code, setTimezone } = props;
+  const { db, timezone, name, code, setTimezone } = props;
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState("");
   const [cityLookup, setCityLookup] = React.useState(
@@ -48,8 +49,21 @@ export default function TimezoneFinder(props) {
   };
 
   const handleTimezoneSelect = (item) => {
+    update(db, item, timezone);
     setTimezone(item);
     handleClose();
+  };
+
+  const sortBy = (a, b) => {
+    let x = a.city.toLowerCase();
+    let y = b.city.toLowerCase();
+    if (x < y) {
+      return -1;
+    }
+    if (x > y) {
+      return 1;
+    }
+    return 0;
   };
 
   return (
@@ -98,55 +112,53 @@ export default function TimezoneFinder(props) {
           </Toolbar>
         </AppBar>
         <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-          {cityLookup.length >= 10
+          {cityLookup.length >= 20
             ? "Too many result"
             : cityLookup.length === 0
             ? "No result found"
-            : cityLookup
-                .sort((a, b) => a.city + a.country > b.city + b.country)
-                .map((item) => {
-                  return (
-                    <React.Fragment>
-                      <ListItem
-                        alignItems="flex-start"
-                        onClick={() => handleTimezoneSelect(item)}
-                      >
-                        <ListItemAvatar>
-                          <Avatar
-                            loading="lazy"
-                            src={`https://flagcdn.com/w80/${item.iso2.toLowerCase()}.png`}
-                          />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={item.city}
-                          secondary={
-                            <React.Fragment>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  bgcolor: "background.paper"
-                                }}
-                              >
-                                <Typography
-                                  sx={{ flexGrow: 1 }}
-                                  component="span"
-                                  variant="body2"
-                                  color="text.primary"
-                                >
-                                  {item.province && item.province + ", "}
-                                  {item.country}
-                                </Typography>
-                                {moment.tz(item.timezone).format("Z")}
-                              </Box>
-                            </React.Fragment>
-                          }
-                          secondaryAction={<div>a</div>}
+            : cityLookup.sort(sortBy).map((item) => {
+                return (
+                  <React.Fragment>
+                    <ListItem
+                      alignItems="flex-start"
+                      onClick={() => handleTimezoneSelect(item)}
+                    >
+                      <ListItemAvatar>
+                        <Avatar
+                          loading="lazy"
+                          src={`https://flagcdn.com/w80/${item.iso2.toLowerCase()}.png`}
                         />
-                      </ListItem>
-                      <Divider />
-                    </React.Fragment>
-                  );
-                })}
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={item.city}
+                        secondary={
+                          <React.Fragment>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                bgcolor: "background.paper"
+                              }}
+                            >
+                              <Typography
+                                sx={{ flexGrow: 1 }}
+                                component="span"
+                                variant="body2"
+                                color="text.primary"
+                              >
+                                {item.province && item.province + ", "}
+                                {item.country}
+                              </Typography>
+                              {moment.tz(item.timezone).format("Z")}
+                            </Box>
+                          </React.Fragment>
+                        }
+                        secondaryAction={<div>a</div>}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
+                );
+              })}
         </List>
       </Dialog>
     </div>
