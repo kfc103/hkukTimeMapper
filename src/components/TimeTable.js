@@ -70,6 +70,7 @@ export default function TimeTable(props) {
   }, [now]);
 
   React.useEffect(() => {
+    console.log("TimeTable useEffect");
     setTimezone1(props.timezone1);
     setTimezone2(props.timezone2);
   }, []);
